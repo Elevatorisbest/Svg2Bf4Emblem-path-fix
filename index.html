@@ -1,36 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Svg2Bf4Emblem</title>
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Include Svg2b4Emblem.js -->
-    <script src="Svg2b4Emblem.js"></script>
-    <!-- Include other scripts -->
-    <script src="Svg2b4Emblem.min.js"></script>
-    <script src="Svg2b4Emblem_tests.js"></script>
-</head>
+<title>SVG to Battlefield 4 Emblem Converter</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="Svg2b4Emblem.min.js"></script>
+<script src="Svg2b4Emblem_tests.js"></script>
+<script src="Svg2b4Emblem.js"></script>  </head>
 <body>
-    <input type="file" id="svgFileInput" accept=".svg">
-    <div id="results"></div>
 
-    <script>
-        $(document).ready(function() {
-            $('#svgFileInput').on('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const svgContent = e.target.result;
-                        const results = Svg2b4Emblem.convert(svgContent, console.log);
-                        $('#results').html('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
-                    };
-                    reader.readAsText(file);
-                }
-            });
-        });
-    </script>
+<h1>SVG to Battlefield 4 Emblem Converter</h1>
+
+<input type="file" id="svgFileInput">
+<button id="convertButton">Convert SVG</button>
+
+<div id="output"></div>
+<!-- Log output will be displayed here -->
+
+<script>
+$(document).ready(function() {
+    $('#convertButton').click(function() {
+        var fileInput = document.getElementById('svgFileInput');
+        if (fileInput.files.length === 0) {
+            displayLog('Please select an SVG file.'); // Use the logging function
+            return;
+        }
+
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var svgText = e.target.result;
+              // Clear previous log output
+            $('#logOutput').remove();
+            // Convert the SVG and display the result *and* logs
+            var emblemData = Svg2b4Emblem.convert(svgText);
+            $('#output').text(JSON.stringify(emblemData, null, 2)); // Pretty-print JSON
+        };
+
+        reader.onerror = function(e) {
+            displayLog('Error reading file: ' + e);
+        };
+
+        reader.readAsText(file);
+    });
+});
+</script>
+
 </body>
 </html>
