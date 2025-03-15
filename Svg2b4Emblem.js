@@ -200,6 +200,20 @@ var Svg2b4Emblem = {
 					"selectable": true
 				};
 			}
+
+			if (item.tagName == "path") {
+        		// New code for handling path elements
+        		var d = $(item).attr("d");
+        		if (d) {
+            			// Convert the 'd' attribute to standard format understood by Battlefield 4 emblems
+            			// This is a placeholder for actual conversion logic
+            			return {
+                			"asset": "Path",
+                			"d": d,
+                			"fill": fill,
+                			"opacity": opacity,
+                			"selectable": true
+            			};
 		
 			log("WARN: Skipped unsupported object " + item.tagName);
 		}
