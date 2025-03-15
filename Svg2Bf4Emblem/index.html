@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Svg2Bf4Emblem</title>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Svg2b4Emblem.js -->
+    <script src="Svg2b4Emblem.js"></script>
+    <!-- Include other scripts -->
+    <script src="Svg2b4Emblem.min.js"></script>
+    <script src="Svg2b4Emblem_tests.js"></script>
+</head>
+<body>
+    <input type="file" id="svgFileInput" accept=".svg">
+    <div id="results"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#svgFileInput').on('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const svgContent = e.target.result;
+                        const results = Svg2b4Emblem.convert(svgContent, console.log);
+                        $('#results').html('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
+                    };
+                    reader.readAsText(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
